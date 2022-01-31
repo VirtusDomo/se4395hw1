@@ -13,12 +13,10 @@ def method1(filepath):
 
     with open(os.path.join(os.getcwd(), filepath), 'r') as f:
         text_in = f.read()
-    print(text_in)
+        lines = [line for line in f.readlines()]
+    return lines
 
 def processing():
-
-
-
 
 
 
