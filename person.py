@@ -12,7 +12,7 @@ class Person:
 
     def display(self):
         print("Employee ID: "+ self.id)
-        print("\t\t"+ self.first, self.mi, self.last)
-        print("\t\t"+ self.phone)
-
+        print("\t"+ self.first, self.mi, self.last)
+        print("\t"+ self.phone)
+        #print("Employee ID: "+self.id+ "\n\t" + self.first,self.mi,self.last + "\n\t"+ self.phone)
 

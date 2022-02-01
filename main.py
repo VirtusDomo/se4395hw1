@@ -16,14 +16,37 @@ def reader(filepath):
         lines = [line for line in f.readlines()]
     return lines
 
+def numvalidate(info):
+    print("Phone", info + " is invalid")
+    print("Enter Phone Number in form 123-456-7890")
+    num = input("Enter phone number: ")
+    numcheck = re.search("[0-9]{3}-[0-9]{3}-[0-9]{4}", num)
+    if numcheck:
+        return num
+    else:
+        numvalidate(num)
+
+def idvalidate(info):
+    print("ID invalid: " + info)
+    print("ID is two letters followed by 4 digits")
+    ids = input("Please enter a valid id: ")
+    idcheck = re.search("[A-Z][A-Z][0-9][0-9][0-9][0-9]", ids)
+    if idcheck:
+        return ids
+    else:
+        idvalidate(ids)
+
+
 def processing(list):
     list.pop(0)
-    people = { }
+    people = {}
+    #print(list)
     for i in range(len(list)):
         info = list[i].split(",")
+        print(info)
         info[0] = info[0].capitalize()
         info[1] = info[1].capitalize()
-        if info[2]:
+        if info[2] != '':
             info[2] = info[2].capitalize()
         else:
             info[2] = "X"
@@ -32,36 +55,40 @@ def processing(list):
         if idcheck:
             continue
         else:
-            print("ID invalid: "+ info[3])
-            print("ID is two letters followed by 4 digits")
-            info[3] = input("Please enter a valid id: ")
+            temp = idvalidate(info[3])
+            info[3] = temp
+
         numcheck = re.search("[0-9]{3}-[0-9]{3}-[0-9]{4}",info[4])
         if numcheck:
             continue
         else:
-            print("Phone",info[4]+" is invalid")
-            print("Enter Phone Number in form 123-456-7890")
-            info[4] = input("Enter phone number: ")
+            temp2 = numvalidate(info[4])
+            info[4] = temp2
 
-       # info[4] = re.sub("\D","-",info[4])
-        #if info[4][3] != "-":
-         #   info[4].insert(3, "-")
-        #if info[4][7] != "-":
-        #    info[4].insert(7, "-")
+        personMaker(info, people)
+
         p1 = Person(info[0], info[1], info[2], info[3], info[4])
-
-        people = {info[3]: p1}
-        #ppl = {}
-        #for p in ppl:
-         #   ppl[info[3]] = p
+        key = info[3]
+        print(i)
+        #people[i] = {key: p1}
+        people[key] = p1.display()
+        print(len(people))
     return people
+
+def personMaker(info, people):
+    p1 = Person(info[0], info[1], info[2], info[3], info[4])
+    key = info[3]
+    # people[i] = {key: p1}
+    people[key] = p1.display()
+    print(len(people))
+return people
 
 def main():
     if len(sys.argv) > 1:
         rp = sys.argv[1]
         listed = reader(rp)
-        dict = processing(listed)
-
+        people = processing(listed)
+        print(people)
     else:
         print('Error, insufficient path please retry.')
 
